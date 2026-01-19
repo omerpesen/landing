@@ -41,8 +41,6 @@
     </div>
 
     <script>
-        // 1. ADIM: Sadece bu listedeki domainler ekranda görünür.
-        // Listenizdeki domainlerin tamamını buraya ekledim.
         const allowedDomains = [
             "alvesa.com",
             "eczam.com",
@@ -59,22 +57,17 @@
             "yolla.app"
         ];
 
-        // 2. ADIM: URL'deki '?d=' parametresini okur.
         const urlParams = new URLSearchParams(window.location.search);
         const requestedDomain = urlParams.get('d'); 
 
-        // 3. ADIM: Ekrana yazdırma işlemi
         const titleElement = document.getElementById('main-title');
         const subTextElement = document.getElementById('sub-text');
 
         if (requestedDomain && allowedDomains.includes(requestedDomain)) {
-            // Eğer parametre var ise VE izinli listede ise:
-            // "kulceal.com Satılıktır" formatında yazar.
             titleElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span> Satılıktır`;
             subTextElement.innerText = `${requestedDomain} is available for sale.`;
             document.title = `${requestedDomain} - Satılık / For Sale`;
         } else {
-            // Parametre yoksa veya listede olmayan bir şey yazıldıysa varsayılan metin kalır:
             titleElement.innerText = "This Domain is for Sale";
         }
     </script>
