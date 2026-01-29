@@ -11,7 +11,6 @@
         h1 { font-size: 28px; font-weight: bold; word-wrap: break-word; }
         p { font-size: 16px; margin: 10px 0; }
         
-        /* Orijinal SVG Kutusu Stilleri */
         .email-box { 
             background-color: #10b981; 
             padding: 15px; 
@@ -24,7 +23,7 @@
             font-weight: bold; 
             overflow: hidden; 
             max-width: 100%; 
-            cursor: pointer; /* Tıklanabilir olduğu belli olsun diye */
+            cursor: pointer; 
         }
         
         .email-box:hover {
@@ -79,11 +78,7 @@
     </div>
 
     <script>
-        // --------- AYARLAR ---------
-        // E-POSTA ADRESİNİ BURAYA YAZ:
         const myEmail = "pesen.omer@gmail.com"; 
-        // ---------------------------
-
         const allowedDomains = [
             "alvesa.com", "eczam.com", "engerekli.com", "fgh.app",
             "finegoldbar.com", "finegoldgram.com", "gramlar.com",
@@ -97,29 +92,24 @@
         const subTextElement = document.getElementById('sub-text');
         const emailBox = document.getElementById('email');
 
-        // Mail açma fonksiyonu
+
         function openMail(domainName) {
-            // E-posta konusu
             const subject = encodeURIComponent(`${domainName} Hakkında Teklif / Offer for ${domainName}`);
             window.location.href = `mailto:${myEmail}?subject=${subject}`;
         }
 
         if (requestedDomain && allowedDomains.includes(requestedDomain)) {
-            // Ekrana domain adını bas
             titleElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span> Satılıktır`;
             subTextElement.innerText = `${requestedDomain} is available for sale.`;
             document.title = `${requestedDomain} - Satılık / For Sale`;
             
-            // Yeşil kutuya tıklanınca maili aç
             emailBox.onclick = function() {
                 openMail(requestedDomain);
             };
 
         } else {
-            // Domain yoksa genel görünüm
             titleElement.innerText = "This Domain is for Sale";
             
-            // Tıklayınca genel konu ile mail aç
             emailBox.onclick = function() {
                 window.location.href = `mailto:${myEmail}?subject=Domain%20Sale%20Inquiry`;
             };
