@@ -14,7 +14,7 @@
         body { 
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: #0f172a; 
-            /* Arka plana hafif bir spot ışığı efekti */
+            /* Arka plan ışık efekti */
             background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
             color: #f8fafc; 
             margin: 0;
@@ -25,10 +25,9 @@
             min-height: 100vh;
             padding: 20px;
             -webkit-font-smoothing: antialiased;
-            overflow: hidden; /* Taşmaları engelle */
+            /* overflow: hidden;  <-- Bunu kaldırdık ki dropdown taşabilsin */
         }
 
-        /* Arka plandaki "Premium" ışıltı */
         .glow-effect {
             position: absolute;
             width: 600px;
@@ -42,18 +41,18 @@
         }
 
         .container { 
-            background-color: rgba(30, 41, 59, 0.7); /* Hafif şeffaflık */
-            backdrop-filter: blur(10px); /* Buzlu cam efekti */
+            background-color: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
             padding: 45px 35px;
-            border-radius: 24px; /* Daha yuvarlak köşeler */
-            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05); /* Çift katmanlı gölge */
+            border-radius: 24px;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
             text-align: center;
             width: 100%;
             max-width: 480px;
             position: relative;
+            z-index: 1; /* Container önde olsun */
         }
 
-        /* Status Badge (Satılık Etiketi) */
         .status-badge {
             display: inline-block;
             background: rgba(16, 185, 129, 0.1);
@@ -68,7 +67,6 @@
             letter-spacing: 1px;
         }
 
-        /* Domain İsmi için Özelleştirme */
         h1 { 
             font-size: 32px; 
             font-weight: 800; 
@@ -97,7 +95,8 @@
             margin-bottom: 20px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            /* overflow: hidden; <-- İPTAL EDİLDİ: Maskelemeyi çözen hamle bu */
+            z-index: 10; /* Dropdown alttaki butonun üstüne çıksın */
         }
 
         .input-group:hover {
@@ -107,7 +106,7 @@
 
         .input-group:focus-within { 
             border-color: #10b981; 
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); /* Focus halkası */
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
         }
         
         .input-group:focus-within:hover {
@@ -132,17 +131,18 @@
             border: none; 
             padding: 18px; 
             color: #fff;
-            font-size: 20px; /* Rakam daha büyük */
+            font-size: 20px;
             font-family: 'Inter', sans-serif; 
             font-weight: 600; 
             outline: none; 
             width: 100%;
+            /* Inputun köşelerini yuvarla ki taşma olmasın */
+            border-top-left-radius: 14px;
+            border-bottom-left-radius: 14px;
         }
 
         .offer-input::placeholder { color: #475569; font-weight: 500; font-size: 16px; }
-
-        .offer-input::-webkit-inner-spin-button, 
-        .offer-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        .offer-input::-webkit-inner-spin-button, .offer-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         .offer-input { -moz-appearance: textfield; }
 
         .currency-selector {
@@ -152,17 +152,21 @@
             padding: 0 20px; 
             height: 100%;
             cursor: pointer; 
-            background-color: #1e293b; /* Hafif farklı ton */
+            background-color: transparent; /* ARKA PLAN ŞEFFAF YAPILDI */
             border-left: 1px solid #334155; 
             color: #e2e8f0; 
             font-weight: 600; 
             font-size: 15px;
             position: relative; 
             user-select: none;
-            transition: background 0.2s;
+            transition: all 0.2s;
+            /* Sağ köşeleri yuvarla */
+            border-top-right-radius: 14px;
+            border-bottom-right-radius: 14px;
         }
 
-        .currency-selector:hover { background-color: #334155; }
+        /* Hover olunca hafif bir ton verelim */
+        .currency-selector:hover { background-color: rgba(255, 255, 255, 0.05); }
 
         .triangle-icon {
             width: 0; height: 0; 
@@ -174,7 +178,7 @@
 
         .currency-dropdown {
             position: absolute; 
-            top: calc(100% + 5px); 
+            top: calc(100% + 8px); /* Biraz boşluk bırak */
             right: 0; 
             background-color: #1e293b; 
             border: 1px solid #475569;
@@ -184,8 +188,8 @@
             margin: 0; 
             width: 140px; 
             display: none; 
-            z-index: 100;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            z-index: 100; /* En üstte durması için */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Güçlü gölge */
         }
 
         .currency-dropdown.show { display: block; animation: fadeIn 0.2s ease; }
@@ -205,10 +209,10 @@
         .currency-dropdown li:hover { background-color: #334155; color: #fff; }
         .currency-dropdown li.active { color: #34d399; background-color: rgba(16, 185, 129, 0.1); font-weight: 600; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .email-box {
-            background: linear-gradient(180deg, #10b981 0%, #059669 100%); /* Gradient Buton */
+            background: linear-gradient(180deg, #10b981 0%, #059669 100%);
             padding: 18px 20px; 
             border-radius: 14px; 
             color: #fff;
@@ -221,12 +225,12 @@
             transition: all 0.3s ease; 
             border: 1px solid #059669; 
             width: 100%; 
-            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); /* Buton gölgesi */
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
 
-        /* Butonun üzerine ışık yansıması efekti */
         .email-box::before {
             content: '';
             position: absolute;
@@ -246,8 +250,6 @@
 
         .btn-main-text { font-size: 18px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         .btn-slider-window { height: 14px; overflow: hidden; margin-top: 6px; position: relative; width: 100%; opacity: 0.9; }
-        
-        /* Slider Wrapper aynı kalabilir */
         .btn-slider-wrapper { animation: scrollUpBtn 8s infinite; }
         .btn-slider-text { height: 14px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #ecfdf5; white-space: nowrap; }
         @keyframes scrollUpBtn {
@@ -325,7 +327,6 @@
         const currentCurrencyText = document.getElementById('currentCurrencyText');
         let selectedCurrency = "TRY"; 
 
-        // ... Diğer event listenerlar aynı ...
         currencyToggle.addEventListener('click', function(e) {
             e.stopPropagation(); 
             currencyMenu.classList.toggle('show');
@@ -363,8 +364,6 @@
             }
         });
 
-        // 🔥 BURASI ÖNEMLİ: Yeni Tasarıma Göre Başlık Güncellemesi
-        // Sadece Domain adını vurgulu, gerisini sade yapıyoruz.
         titleElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span>`;
         subTextElement.innerText = `Bu alan adı için teklif vermeye başlayabilirsiniz.`; 
         
