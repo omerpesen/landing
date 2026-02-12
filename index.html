@@ -14,7 +14,6 @@
         body { 
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: #0f172a; 
-            /* Arka plan ışık efekti */
             background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
             color: #f8fafc; 
             margin: 0;
@@ -25,7 +24,6 @@
             min-height: 100vh;
             padding: 20px;
             -webkit-font-smoothing: antialiased;
-            /* overflow: hidden;  <-- Bunu kaldırdık ki dropdown taşabilsin */
         }
 
         .glow-effect {
@@ -50,7 +48,7 @@
             width: 100%;
             max-width: 480px;
             position: relative;
-            z-index: 1; /* Container önde olsun */
+            z-index: 1;
         }
 
         .status-badge {
@@ -88,15 +86,14 @@
         .input-group {
             position: relative;
             display: flex;
-            align-items: center;
+            align-items: center; /* Inputu dikey ortalar */
             background-color: #0f172a;
             border: 2px solid #334155;
             border-radius: 14px;
             margin-bottom: 20px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            /* overflow: hidden; <-- İPTAL EDİLDİ: Maskelemeyi çözen hamle bu */
-            z-index: 10; /* Dropdown alttaki butonun üstüne çıksın */
+            z-index: 10;
         }
 
         .input-group:hover {
@@ -136,7 +133,6 @@
             font-weight: 600; 
             outline: none; 
             width: 100%;
-            /* Inputun köşelerini yuvarla ki taşma olmasın */
             border-top-left-radius: 14px;
             border-bottom-left-radius: 14px;
         }
@@ -145,28 +141,48 @@
         .offer-input::-webkit-inner-spin-button, .offer-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         .offer-input { -moz-appearance: textfield; }
 
+        /* --- YENİ CURRENCY SEÇİCİ TASARIMI --- */
         .currency-selector {
             display: flex; 
             align-items: center; 
             justify-content: center; 
             padding: 0 20px; 
-            height: 100%;
+            
+            /* ÖNEMLİ: Kutu yüksekliğini ebeveyne eşitle */
+            align-self: stretch; 
+            
             cursor: pointer; 
-            background-color: transparent; /* ARKA PLAN ŞEFFAF YAPILDI */
-            border-left: 1px solid #334155; 
+            background-color: transparent; 
             color: #e2e8f0; 
             font-weight: 600; 
             font-size: 15px;
             position: relative; 
             user-select: none;
             transition: all 0.2s;
-            /* Sağ köşeleri yuvarla */
-            border-top-right-radius: 14px;
-            border-bottom-right-radius: 14px;
+            
+            /* Sadece sağ köşeleri yuvarla ki taşma olmasın */
+            border-top-right-radius: 12px; /* Parent border (2px) payı bırakıldı */
+            border-bottom-right-radius: 12px;
         }
 
-        /* Hover olunca hafif bir ton verelim */
+        /* Hover efekti artık tüm yüksekliği kaplar */
         .currency-selector:hover { background-color: rgba(255, 255, 255, 0.05); }
+
+        /* Zarif İndikatör Çizgisi (Border yerine Pseudo-element) */
+        .currency-selector::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%); /* Dikey ortala */
+            width: 1px;
+            height: 24px; /* Çizgi yüksekliği sabit ve kibar */
+            background-color: #334155;
+            transition: background-color 0.2s;
+        }
+        
+        /* Hover olunca çizgi rengi hafif açılabilir */
+        .currency-selector:hover::before { background-color: #475569; }
 
         .triangle-icon {
             width: 0; height: 0; 
@@ -178,7 +194,7 @@
 
         .currency-dropdown {
             position: absolute; 
-            top: calc(100% + 8px); /* Biraz boşluk bırak */
+            top: calc(100% + 8px); 
             right: 0; 
             background-color: #1e293b; 
             border: 1px solid #475569;
@@ -188,8 +204,8 @@
             margin: 0; 
             width: 140px; 
             display: none; 
-            z-index: 100; /* En üstte durması için */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Güçlü gölge */
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .currency-dropdown.show { display: block; animation: fadeIn 0.2s ease; }
