@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Domain Satılıktır / For Sale</title>
     <meta name="robots" content="noindex, nofollow">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <style>
         * { box-sizing: border-box; }
-
         body { 
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: #0f172a; 
@@ -26,7 +23,6 @@
             padding: 20px;
             -webkit-font-smoothing: antialiased;
         }
-        
         .container { 
             background-color: #1e293b; 
             padding: 40px 30px;
@@ -37,10 +33,8 @@
             width: 100%;
             max-width: 450px;
         }
-
         h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; word-wrap: break-word; margin: 0 0 8px 0; color: #fff; }
         p { font-size: 15px; margin: 10px 0; color: #94a3b8; font-weight: 400; }
-
         .input-group {
             position: relative;
             display: flex;
@@ -52,21 +46,17 @@
             margin-bottom: 15px;
             transition: all 0.2s ease;
         }
-
         .input-group:focus-within { border-color: #059669; background-color: #1e293b; }
-        
         .input-group.error {
             border-color: #ef4444;
             animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
         }
-
         @keyframes shake {
             10%, 90% { transform: translate3d(-1px, 0, 0); }
             20%, 80% { transform: translate3d(2px, 0, 0); }
             30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
             40%, 60% { transform: translate3d(4px, 0, 0); }
         }
-
         .offer-input {
             flex: 1; background: transparent; border: none; padding: 16px; color: #fff;
             font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; outline: none; width: 100%;
@@ -74,19 +64,16 @@
         .offer-input::placeholder { color: #64748b; font-weight: 400; font-size: 15px; }
         .offer-input::-webkit-inner-spin-button, .offer-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         .offer-input { -moz-appearance: textfield; }
-
         .currency-selector {
             display: flex; align-items: center; justify-content: center; padding: 0 15px; height: 100%;
             cursor: pointer; border-left: 1px solid #475569; color: #e2e8f0; font-weight: 600; font-size: 14px;
             position: relative; user-select: none;
         }
         .currency-selector:hover { background-color: #475569; border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
-
         .triangle-icon {
             width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent;
             border-top: 5px solid #e2e8f0; margin-left: 8px; transform: translateY(1px);
         }
-
         .currency-dropdown {
             position: absolute; top: 110%; right: 0; background-color: #334155; border: 1px solid #475569;
             border-radius: 8px; list-style: none; padding: 5px; margin: 0; width: 120px; display: none; z-index: 100;
@@ -98,9 +85,7 @@
         }
         .currency-dropdown li:hover { background-color: #475569; }
         .currency-dropdown li.active { color: #10b981; font-weight: 700; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
         .email-box {
             background-color: #059669; padding: 16px 20px; border-radius: 10px; color: #fff;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -108,12 +93,10 @@
         }
         .email-box:hover { background-color: #047857; }
         .email-box:active { opacity: 0.9; }
-
         .btn-main-text { font-size: 17px; font-weight: 600; line-height: 1.2; letter-spacing: -0.3px; }
         .btn-slider-window { height: 14px; overflow: hidden; margin-top: 6px; position: relative; width: 100%; }
         .btn-slider-wrapper { animation: scrollUpBtn 8s infinite; }
         .btn-slider-text { height: 14px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #d1fae5; white-space: nowrap; }
-
         @keyframes scrollUpBtn {
             0%, 20% { transform: translateY(0); }
             25%, 45% { transform: translateY(-14px); }
@@ -121,25 +104,18 @@
             75%, 95% { transform: translateY(-42px); }
             100% { transform: translateY(-56px); } 
         }
-
-        .info { margin-top: 25px; font-size: 11px; color: #64748b; line-height: 1.5; font-weight: 400; }
-        .spacer { margin-top: 15px; }
         .domain-highlight { color: #10b981; font-weight: 600; } 
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1 id="main-title">Bu Alan Adı Satılıktır</h1>
         <p id="sub-text">Süreci başlatmak için teklifinizi aşağıya giriniz.</p>
-
         <div class="input-group" id="inputGroupWrapper">
             <input type="number" id="offerInput" class="offer-input" placeholder="Teklifiniz / Your Offer" autofocus>
-            
             <div class="currency-selector" id="currencyToggle">
                 <span id="currentCurrencyText">TRY</span>
                 <div class="triangle-icon"></div>
-                
                 <ul class="currency-dropdown" id="currencyMenu">
                     <li data-value="TRY" class="active">TRY (₺)</li>
                     <li data-value="USD">USD ($)</li>
@@ -147,71 +123,49 @@
                 </ul>
             </div>
         </div>
-
         <button class="email-box" id="email">
             <span class="btn-main-text">Teklif Ver / Make an Offer</span>
-            
             <div class="btn-slider-window">
                 <div class="btn-slider-wrapper">
-                    <div class="btn-slider-text">🚀 Son 1 yılda 3 benzer satış gerçekleşti</div>
-                    <div class="btn-slider-text">🚀 3 similar sales completed in the last year</div>
+                    <div class="btn-slider-text">🚀 Son 1 Yılda 3 Farklı Başarılı Satış</div>
+                    <div class="btn-slider-text">🚀 3 different successful sales in the last 1 year</div>
                     <div class="btn-slider-text">✅ %100 Güvenli Transfer & Hızlı Dönüş</div>
                     <div class="btn-slider-text">✅ 100% Secure Transfer & Fast Response</div>
-                    <div class="btn-slider-text">🚀 Son 1 yılda 3 benzer satış gerçekleşti</div>
+                    <div class="btn-slider-text">🚀 Son 1 Yılda 3 Farklı Başarılı Satış</div>
                 </div>
             </div>
         </button>
-        
-        <p class="info">
-            Bu sayfa, yönlendirildiğiniz alan adının satışta olduğunu göstermek için oluşturulmuştur.<br>
-            Detaylı bilgi için yukarıdaki butona tıklayarak iletişime geçebilirsiniz.
-        </p>
-        <p class="info spacer">
-            This page has been created to show that the domain name you were redirected to is for sale.<br>
-            For more details, please contact via the button above.
-        </p>
     </div>
-
     <script>
         const myEmail = "pesen.omer@gmail.com"; 
-        
         const allowedDomains = [
             "alvesa.com", "eczam.com", "engerekli.com", "fgh.app",
             "finegoldbar.com", "finegoldgram.com", "gramlar.com",
             "kolay.app", "kulceal.com", "nakit.app",
             "nenekadar.com", "tamirattadilat.com", "yedeksepeti.com", "yolla.app"
         ];
-
         const urlParams = new URLSearchParams(window.location.search);
         const requestedDomain = urlParams.get('d') || window.location.hostname.replace('www.', '');
-
-
         if (!requestedDomain || !allowedDomains.includes(requestedDomain)) {
-            throw new Error("Access Denied: Valid domain parameter required.");
+            throw new Error("Access Denied");
         }
-
         document.body.style.display = "flex";
-
         const titleElement = document.getElementById('main-title');
         const subTextElement = document.getElementById('sub-text');
         const emailBox = document.getElementById('email');
         const offerInput = document.getElementById('offerInput');
         const inputGroupWrapper = document.getElementById('inputGroupWrapper');
-        
         const currencyToggle = document.getElementById('currencyToggle');
         const currencyMenu = document.getElementById('currencyMenu');
         const currentCurrencyText = document.getElementById('currentCurrencyText');
         let selectedCurrency = "TRY"; 
-
         currencyToggle.addEventListener('click', function(e) {
             e.stopPropagation(); 
             currencyMenu.classList.toggle('show');
         });
-
         document.addEventListener('click', function() {
             currencyMenu.classList.remove('show');
         });
-
         document.querySelectorAll('.currency-dropdown li').forEach(item => {
             item.addEventListener('click', function() {
                 selectedCurrency = this.getAttribute('data-value');
@@ -220,39 +174,29 @@
                 this.classList.add('active');
             });
         });
-
         function openMail(domainName) {
             const amount = offerInput.value.trim();
-
             if (!amount) {
                 offerInput.focus();
                 inputGroupWrapper.classList.add('error');
                 setTimeout(() => inputGroupWrapper.classList.remove('error'), 400);
                 return; 
             }
-
             if (!domainName) domainName = "Premium Domain";
-            
             const amountText = `${amount} ${selectedCurrency}`;
             const subject = encodeURIComponent(`${domainName} Hakkında Teklif / Offer for ${domainName}`);
             const body = encodeURIComponent(`Merhaba,\n\n${domainName} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${domainName}: ${amountText}`);
-            
             window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
         }
-
         offerInput.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 openMail(requestedDomain);
             }
         });
-
         titleElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span> Satılıktır`;
-        subTextElement.innerText = `${requestedDomain} satın alınabilir durumdadır.`; 
+        subTextElement.innerText = `${requestedDomain} için teklif vermeye başlayabilirsiniz.`; 
         document.title = `${requestedDomain} - Satılık / For Sale`;
-        
         emailBox.onclick = function() { openMail(requestedDomain); };
-
     </script>
-
 </body>
 </html>
