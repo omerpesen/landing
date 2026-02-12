@@ -86,7 +86,7 @@
         .input-group {
             position: relative;
             display: flex;
-            align-items: center; /* Inputu dikey ortalar */
+            align-items: center;
             background-color: #0f172a;
             border: 2px solid #334155;
             border-radius: 14px;
@@ -98,7 +98,6 @@
 
         .input-group:hover {
             border-color: #64748b;
-            transform: translateY(-1px);
         }
 
         .input-group:focus-within { 
@@ -141,16 +140,12 @@
         .offer-input::-webkit-inner-spin-button, .offer-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         .offer-input { -moz-appearance: textfield; }
 
-        /* --- YENİ CURRENCY SEÇİCİ TASARIMI --- */
         .currency-selector {
             display: flex; 
             align-items: center; 
             justify-content: center; 
             padding: 0 20px; 
-            
-            /* ÖNEMLİ: Kutu yüksekliğini ebeveyne eşitle */
             align-self: stretch; 
-            
             cursor: pointer; 
             background-color: transparent; 
             color: #e2e8f0; 
@@ -159,29 +154,24 @@
             position: relative; 
             user-select: none;
             transition: all 0.2s;
-            
-            /* Sadece sağ köşeleri yuvarla ki taşma olmasın */
-            border-top-right-radius: 12px; /* Parent border (2px) payı bırakıldı */
+            border-top-right-radius: 12px;
             border-bottom-right-radius: 12px;
         }
 
-        /* Hover efekti artık tüm yüksekliği kaplar */
         .currency-selector:hover { background-color: rgba(255, 255, 255, 0.05); }
 
-        /* Zarif İndikatör Çizgisi (Border yerine Pseudo-element) */
         .currency-selector::before {
             content: '';
             position: absolute;
             left: 0;
             top: 50%;
-            transform: translateY(-50%); /* Dikey ortala */
+            transform: translateY(-50%);
             width: 1px;
-            height: 24px; /* Çizgi yüksekliği sabit ve kibar */
+            height: 24px;
             background-color: #334155;
             transition: background-color 0.2s;
         }
         
-        /* Hover olunca çizgi rengi hafif açılabilir */
         .currency-selector:hover::before { background-color: #475569; }
 
         .triangle-icon {
