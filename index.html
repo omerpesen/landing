@@ -172,6 +172,7 @@
                 currentCurrencyText.innerText = selectedCurrency;
                 document.querySelectorAll('.currency-dropdown li').forEach(li => li.classList.remove('active'));
                 this.classList.add('active');
+                offerInput.focus();
             });
         });
         function openMail(domainName) {
