@@ -6,30 +6,42 @@
     <title>Domain Satılıktır / For Sale</title>
     <meta name="robots" content="noindex, nofollow">
     <style>
-        /* Modern Dark Slate Arka Plan */
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            text-align: center; 
-            background-color: #0f172a; 
-            color: #f8fafc; 
-            padding-top: 50px; 
-            margin: 0; 
-        }
-        
-        /* Kart Rengi */
-        .container { 
-            background-color: #1e293b; 
-            padding: 40px; 
-            border-radius: 16px; 
-            display: inline-block; 
-            /* Kartın kendi gölgesi kalabilir, butondan ayrışması için gerekli */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); 
-            max-width: 90%; 
-            width: 450px; 
-            border: 1px solid #334155; 
+        /* TÜM ELEMENTLER İÇİN OTO-BOYUTLANDIRMA (Çok Önemli) */
+        * {
+            box-sizing: border-box; 
         }
 
-        h1 { font-size: 26px; font-weight: 700; word-wrap: break-word; margin-bottom: 5px; color: #fff; }
+        /* Modern Dark Slate Arka Plan & Flexbox Ortalama */
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #0f172a; 
+            color: #f8fafc; 
+            margin: 0;
+            
+            /* Sayfayı tam ortalamak için Flexbox */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Dikey orta */
+            align-items: center;     /* Yatay orta */
+            min-height: 100vh;       /* Tüm ekranı kapla */
+            padding: 20px;           /* Mobilde kenarlara yapışmasın diye boşluk */
+        }
+        
+        /* Kart Rengi ve Responsive Ayarlar */
+        .container { 
+            background-color: #1e293b; 
+            padding: 40px 30px; /* Üst-Alt 40, Sağ-Sol 30 */
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); 
+            border: 1px solid #334155; 
+            text-align: center;
+
+            /* KRİTİK DÜZELTME: Sabit genişlik yerine esnek yapı */
+            width: 100%;       /* Bulunduğu alanı doldur */
+            max-width: 450px;  /* Ama 450px'i asla geçme */
+        }
+
+        h1 { font-size: 26px; font-weight: 700; word-wrap: break-word; margin: 0 0 5px 0; color: #fff; }
         p { font-size: 15px; margin: 10px 0; color: #94a3b8; }
         
         /* --- Buton Stilleri (Flat Design) --- */
@@ -44,16 +56,15 @@
             justify-content: center;
             text-decoration: none;
             cursor: pointer;
-            transition: background-color 0.2s ease; /* Sadece renk geçişi */
+            transition: background-color 0.2s ease;
             border: none;
             width: 100%; 
-            box-sizing: border-box;
-            box-shadow: none; /* GÖLGE YOK */
+            box-shadow: none;
+            margin-top: 10px;
         }
 
         .email-box:hover {
             background-color: #047857; /* Emerald 700 */
-            /* Transform ve Shadow kaldırıldı, sadece renk değişir */
         }
 
         .email-box:active {
@@ -88,7 +99,7 @@
             font-size: 11px;
             font-weight: 500;
             color: #d1fae5; 
-            white-space: nowrap;
+            white-space: nowrap; /* Mobilde taşarsa 'normal' yapılabilir ama 11px sığacaktır */
         }
 
         @keyframes scrollUpBtn {
@@ -102,8 +113,8 @@
         /* --- Footer Bilgi Metinleri --- */
         .info { 
             margin-top: 25px; 
-            font-size: 11px; /* İSTEK ÜZERİNE KÜÇÜLTÜLDÜ */
-            color: #64748b; /* Slate 500 - Geri planda ama okunur */
+            font-size: 11px;
+            color: #64748b;
             line-height: 1.4; 
         }
         .spacer { margin-top: 15px; }
