@@ -18,7 +18,7 @@
             background-color: #0f172a; 
             color: #f8fafc; 
             margin: 0;
-            display: none;
+            display: none; 
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -122,6 +122,8 @@
             100% { transform: translateY(-56px); } 
         }
 
+        .info { margin-top: 25px; font-size: 11px; color: #64748b; line-height: 1.5; font-weight: 400; }
+        .spacer { margin-top: 15px; }
         .domain-highlight { color: #10b981; font-weight: 600; } 
     </style>
 </head>
@@ -159,6 +161,15 @@
                 </div>
             </div>
         </button>
+        
+        <p class="info">
+            Bu sayfa, yönlendirildiğiniz alan adının satışta olduğunu göstermek için oluşturulmuştur.<br>
+            Detaylı bilgi için yukarıdaki butona tıklayarak iletişime geçebilirsiniz.
+        </p>
+        <p class="info spacer">
+            This page has been created to show that the domain name you were redirected to is for sale.<br>
+            For more details, please contact via the button above.
+        </p>
     </div>
 
     <script>
@@ -172,10 +183,11 @@
         ];
 
         const urlParams = new URLSearchParams(window.location.search);
-        const requestedDomain = urlParams.get('d'); 
+        const requestedDomain = urlParams.get('d') || window.location.hostname.replace('www.', '');
+
 
         if (!requestedDomain || !allowedDomains.includes(requestedDomain)) {
-            throw new Error("Access Denied");
+            throw new Error("Access Denied: Valid domain parameter required.");
         }
 
         document.body.style.display = "flex";
