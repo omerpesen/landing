@@ -5,48 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Domain Satılıktır / For Sale</title>
     <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* TÜM ELEMENTLER İÇİN OTO-BOYUTLANDIRMA (Çok Önemli) */
         * {
             box-sizing: border-box; 
         }
 
-        /* Modern Dark Slate Arka Plan & Flexbox Ortalama */
         body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             background-color: #0f172a; 
             color: #f8fafc; 
             margin: 0;
-            
-            /* Sayfayı tam ortalamak için Flexbox */
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Dikey orta */
-            align-items: center;     /* Yatay orta */
-            min-height: 100vh;       /* Tüm ekranı kapla */
-            padding: 20px;           /* Mobilde kenarlara yapışmasın diye boşluk */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
-        /* Kart Rengi ve Responsive Ayarlar */
         .container { 
             background-color: #1e293b; 
-            padding: 40px 30px; /* Üst-Alt 40, Sağ-Sol 30 */
+            padding: 40px 30px;
             border-radius: 16px; 
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); 
             border: 1px solid #334155; 
             text-align: center;
-
-            /* KRİTİK DÜZELTME: Sabit genişlik yerine esnek yapı */
-            width: 100%;       /* Bulunduğu alanı doldur */
-            max-width: 450px;  /* Ama 450px'i asla geçme */
+            width: 100%;
+            max-width: 450px;
         }
 
-        h1 { font-size: 26px; font-weight: 700; word-wrap: break-word; margin: 0 0 5px 0; color: #fff; }
-        p { font-size: 15px; margin: 10px 0; color: #94a3b8; }
+        h1 { 
+            font-size: 26px; 
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            word-wrap: break-word; 
+            margin: 0 0 8px 0; 
+            color: #fff; 
+        }
         
-        /* --- Buton Stilleri (Flat Design) --- */
+        p { 
+            font-size: 15px; 
+            margin: 10px 0; 
+            color: #94a3b8; 
+            font-weight: 400; 
+        }
+        
         .email-box {
-            background-color: #059669; /* Emerald 600 */
+            background-color: #059669;
             padding: 16px 20px;
             border-radius: 10px;
             color: #fff;
@@ -60,25 +72,24 @@
             border: none;
             width: 100%; 
             box-shadow: none;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         .email-box:hover {
-            background-color: #047857; /* Emerald 700 */
+            background-color: #047857;
         }
 
         .email-box:active {
             opacity: 0.9;
         }
 
-        /* Ana Buton Metni */
         .btn-main-text {
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 17px;
+            font-weight: 600;
             line-height: 1.2;
+            letter-spacing: -0.3px;
         }
 
-        /* --- Buton İçi Slider --- */
         .btn-slider-window {
             height: 14px;
             overflow: hidden;
@@ -99,7 +110,7 @@
             font-size: 11px;
             font-weight: 500;
             color: #d1fae5; 
-            white-space: nowrap; /* Mobilde taşarsa 'normal' yapılabilir ama 11px sığacaktır */
+            white-space: nowrap;
         }
 
         @keyframes scrollUpBtn {
@@ -110,16 +121,16 @@
             100% { transform: translateY(-56px); } 
         }
 
-        /* --- Footer Bilgi Metinleri --- */
         .info { 
             margin-top: 25px; 
             font-size: 11px;
             color: #64748b;
-            line-height: 1.4; 
+            line-height: 1.5; 
+            font-weight: 400;
         }
         .spacer { margin-top: 15px; }
         
-        .domain-highlight { color: #10b981; font-weight: bold; } 
+        .domain-highlight { color: #10b981; font-weight: 600; } 
     </style>
 </head>
 <body>
@@ -134,11 +145,11 @@
             
             <div class="btn-slider-window">
                 <div class="btn-slider-wrapper">
-                    <div class="btn-slider-text">🚀 Yakın zamanda benzer 3 domain satıldı</div>
-                    <div class="btn-slider-text">🚀 3 similar domains sold recently</div>
+                    <div class="btn-slider-text">🚀 Son 1 yılda 3 benzer satış gerçekleşti</div>
+                    <div class="btn-slider-text">🚀 3 similar sales completed in the last year</div>
                     <div class="btn-slider-text">✅ %100 Güvenli Transfer & Hızlı Dönüş</div>
                     <div class="btn-slider-text">✅ 100% Secure Transfer & Fast Response</div>
-                    <div class="btn-slider-text">🚀 Yakın zamanda benzer 3 domain satıldı</div>
+                    <div class="btn-slider-text">🚀 Son 1 yılda 3 benzer satış gerçekleşti</div>
                 </div>
             </div>
         </button>
