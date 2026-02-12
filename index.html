@@ -60,11 +60,7 @@
             padding: 20px;
         }
 
-        .app-wrapper::before {
-            content: '';
-            flex-grow: 1; 
-        }
-        .app-wrapper::after {
+        .app-wrapper::before, .app-wrapper::after {
             content: '';
             flex-grow: 1; 
         }
@@ -135,7 +131,6 @@
 
         .input-group:hover { border-color: #64748b; }
         .input-group:focus-within { border-color: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
-        .input-group:focus-within:hover { border-color: #10b981; }
 
         .input-group.error {
             border-color: #ef4444;
@@ -160,8 +155,6 @@
             font-weight: 600; 
             outline: none; 
             width: 100%;
-            border-top-left-radius: 14px;
-            border-bottom-left-radius: 14px;
             min-width: 0;
             height: 100%;
         }
@@ -200,10 +193,7 @@
             width: 1px;
             height: 24px;
             background-color: #334155;
-            transition: background-color 0.2s;
         }
-        
-        .currency-selector:hover::before { background-color: #475569; }
 
         .triangle-icon {
             width: 0; height: 0; 
@@ -249,7 +239,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .email-box {
-            background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+            background: #10b981;
             padding: 18px 20px; 
             border-radius: 14px; 
             color: #fff;
@@ -260,9 +250,9 @@
             text-decoration: none; 
             cursor: pointer; 
             transition: all 0.3s ease; 
-            border: 1px solid #059669; 
+            border: none; 
             width: 100%; 
-            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -278,8 +268,9 @@
         }
 
         .email-box:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4);
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.5);
+            background: #12cf91;
         }
         
         .email-box:hover::before { left: 100%; }
@@ -310,7 +301,7 @@
             <div class="status-badge">Satılık / For Sale</div>
             
             <h1 id="main-title">Domain.com</h1>
-            <p id="sub-text">Bu premium alan adı için teklifinizi iletin.</p>
+            <p id="sub-text">Bu alan adı için teklif vermeye başlayabilirsiniz.</p>
 
             <div class="input-group" id="inputGroupWrapper">
                 <input type="number" id="offerInput" class="offer-input" placeholder="Teklifiniz / Offer" autofocus>
@@ -405,11 +396,8 @@
         });
 
         titleElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span>`;
-        subTextElement.innerText = `Bu alan adı için teklif vermeye başlayabilirsiniz.`; 
-        
         document.title = `${requestedDomain} - Satılık / For Sale`;
         emailBox.onclick = function() { openMail(requestedDomain); };
     </script>
-
 </body>
 </html>
