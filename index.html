@@ -12,25 +12,25 @@
         * { box-sizing: border-box; }
         
         html, body {
-            width: 100%;
-            overflow-x: hidden;
             margin: 0;
             padding: 0;
-            overscroll-behavior: none;
-        }
-
-        body { 
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             background-color: #0f172a; 
             background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
-            color: #f8fafc; 
-            display: none; 
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100dvh; 
-            padding: 20px;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             -webkit-font-smoothing: antialiased;
+        }
+
+        .background-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .glow-effect {
@@ -42,8 +42,31 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: -1;
-            pointer-events: none;
+        }
+
+        .app-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            padding: 20px;
+        }
+
+        .app-wrapper::before {
+            content: '';
+            flex-grow: 1; 
+        }
+        .app-wrapper::after {
+            content: '';
+            flex-grow: 1; 
         }
 
         .container { 
@@ -56,7 +79,8 @@
             width: 100%;
             max-width: 480px;
             position: relative;
-            z-index: 1;
+            flex-shrink: 0; 
+            margin: auto 0; 
         }
 
         .status-badge {
@@ -98,7 +122,7 @@
         .input-group {
             position: relative;
             display: flex;
-            align-items: center;
+            align-items: stretch;
             background-color: #0f172a;
             border: 2px solid #334155;
             border-radius: 14px;
@@ -106,6 +130,7 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             z-index: 10;
+            height: 60px;
         }
 
         .input-group:hover { border-color: #64748b; }
@@ -128,7 +153,7 @@
             flex: 1; 
             background: transparent; 
             border: none; 
-            padding: 18px; 
+            padding: 0 18px; 
             color: #fff;
             font-size: 18px;
             font-family: 'Inter', sans-serif; 
@@ -138,6 +163,7 @@
             border-top-left-radius: 14px;
             border-bottom-left-radius: 14px;
             min-width: 0;
+            height: 100%;
         }
 
         .offer-input::placeholder { color: #475569; font-weight: 500; font-size: 16px; }
@@ -149,7 +175,6 @@
             align-items: center; 
             justify-content: center; 
             padding: 0 20px; 
-            align-self: stretch; 
             cursor: pointer; 
             background-color: transparent; 
             color: #e2e8f0; 
@@ -161,6 +186,7 @@
             border-top-right-radius: 12px;
             border-bottom-right-radius: 12px;
             flex-shrink: 0;
+            height: 100%;
         }
 
         .currency-selector:hover { background-color: rgba(255, 255, 255, 0.05); }
@@ -275,42 +301,46 @@
 </head>
 <body>
 
-    <div class="glow-effect"></div>
+    <div class="background-fixed">
+        <div class="glow-effect"></div>
+    </div>
 
-    <div class="container">
-        <div class="status-badge">Satılık / For Sale</div>
-        
-        <h1 id="main-title">Domain.com</h1>
-        <p id="sub-text">Bu premium alan adı için teklifinizi iletin.</p>
-
-        <div class="input-group" id="inputGroupWrapper">
-            <input type="number" id="offerInput" class="offer-input" placeholder="Teklifiniz / Offer" autofocus>
+    <div class="app-wrapper">
+        <div class="container">
+            <div class="status-badge">Satılık / For Sale</div>
             
-            <div class="currency-selector" id="currencyToggle">
-                <span id="currentCurrencyText">TRY</span>
-                <div class="triangle-icon"></div>
+            <h1 id="main-title">Domain.com</h1>
+            <p id="sub-text">Bu premium alan adı için teklifinizi iletin.</p>
+
+            <div class="input-group" id="inputGroupWrapper">
+                <input type="number" id="offerInput" class="offer-input" placeholder="Teklifiniz / Offer" autofocus>
                 
-                <ul class="currency-dropdown" id="currencyMenu">
-                    <li data-value="TRY" class="active">TRY (₺)</li>
-                    <li data-value="USD">USD ($)</li>
-                    <li data-value="EUR">EUR (€)</li>
-                </ul>
-            </div>
-        </div>
-
-        <button class="email-box" id="email">
-            <span class="btn-main-text">Teklifi Gönder</span>
-            
-            <div class="btn-slider-window">
-                <div class="btn-slider-wrapper">
-                    <div class="btn-slider-text">🚀 Son 1 Yılda 3 Farklı Başarılı Satış</div>
-                    <div class="btn-slider-text">🚀 3 different successful sales in the last 1 year</div>
-                    <div class="btn-slider-text">✅ %100 Güvenli Transfer & Hızlı Dönüş</div>
-                    <div class="btn-slider-text">✅ 100% Secure Transfer & Fast Response</div>
-                    <div class="btn-slider-text">🚀 Son 1 Yılda 3 Farklı Başarılı Satış</div>
+                <div class="currency-selector" id="currencyToggle">
+                    <span id="currentCurrencyText">TRY</span>
+                    <div class="triangle-icon"></div>
+                    
+                    <ul class="currency-dropdown" id="currencyMenu">
+                        <li data-value="TRY" class="active">TRY (₺)</li>
+                        <li data-value="USD">USD ($)</li>
+                        <li data-value="EUR">EUR (€)</li>
+                    </ul>
                 </div>
             </div>
-        </button>
+
+            <button class="email-box" id="email">
+                <span class="btn-main-text">Teklifi Gönder</span>
+                
+                <div class="btn-slider-window">
+                    <div class="btn-slider-wrapper">
+                        <div class="btn-slider-text">🚀 Son 1 Yılda 3 Farklı Başarılı Satış</div>
+                        <div class="btn-slider-text">🚀 3 different successful sales in the last 1 year</div>
+                        <div class="btn-slider-text">✅ %100 Güvenli Transfer & Hızlı Dönüş</div>
+                        <div class="btn-slider-text">✅ 100% Secure Transfer & Fast Response</div>
+                        <div class="btn-slider-text">🚀 Son 1 Yılda 3 Farklı Başarılı Satış</div>
+                    </div>
+                </div>
+            </button>
+        </div>
     </div>
 
     <script>
@@ -326,8 +356,7 @@
         if (!requestedDomain || !allowedDomains.includes(requestedDomain)) {
             throw new Error("Access Denied");
         }
-        document.body.style.display = "flex";
-
+        
         const titleElement = document.getElementById('main-title');
         const subTextElement = document.getElementById('sub-text');
         const emailBox = document.getElementById('email');
