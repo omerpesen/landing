@@ -160,8 +160,6 @@
         }
 
         .offer-input::placeholder { color: #475569; font-weight: 500; font-size: 16px; }
-        .offer-input::-webkit-inner-spin-button, .offer-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        .offer-input { -moz-appearance: textfield; }
 
         .currency-selector {
             display: flex; 
@@ -304,7 +302,7 @@
             <p id="sub-text">Bu alan adı için teklif vermeye başlayabilirsiniz.</p>
 
             <div class="input-group" id="inputGroupWrapper">
-                <input type="number" id="offerInput" class="offer-input" placeholder="Teklifiniz / Offer" autofocus>
+                <input type="text" id="offerInput" class="offer-input" placeholder="Teklifiniz / Offer" autofocus>
                 
                 <div class="currency-selector" id="currencyToggle">
                     <span id="currentCurrencyText">TRY</span>
@@ -358,13 +356,23 @@
         const currentCurrencyText = document.getElementById('currentCurrencyText');
         let selectedCurrency = "TRY"; 
 
+        offerInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, "");
+            if (value !== "") {
+                value = new Intl.NumberFormat('tr-TR').format(value);
+            }
+            e.target.value = value;
+        });
+
         currencyToggle.addEventListener('click', function(e) {
             e.stopPropagation(); 
             currencyMenu.classList.toggle('show');
         });
+
         document.addEventListener('click', function() {
             currencyMenu.classList.remove('show');
         });
+
         document.querySelectorAll('.currency-dropdown li').forEach(item => {
             item.addEventListener('click', function() {
                 selectedCurrency = this.getAttribute('data-value');
@@ -389,6 +397,7 @@
             const body = encodeURIComponent(`Merhaba,\n\n${domainName} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${domainName}: ${amountText}`);
             window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
         }
+
         offerInput.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 openMail(requestedDomain);
