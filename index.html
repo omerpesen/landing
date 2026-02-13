@@ -268,7 +268,7 @@
             <h1 id="main-title">Domain.com</h1>
             <p id="sub-text">Bu alan adı için teklif vermeye başlayabilirsiniz.</p>
             <div class="input-group" id="inputGroupWrapper">
-                <input type="number" id="offerInput" class="offer-input" placeholder="Teklifiniz / Offer" autofocus>
+                <input type="text" inputmode="numeric" id="offerInput" class="offer-input" placeholder="Teklifiniz / Offer" autofocus>
                 <div class="currency-selector" id="currencyToggle">
                     <span id="currentCurrencyText">TRY</span>
                     <div class="triangle-icon"></div>
@@ -314,7 +314,32 @@
         const currencyToggle = document.getElementById('currencyToggle');
         const currencyMenu = document.getElementById('currencyMenu');
         const currentCurrencyText = document.getElementById('currentCurrencyText');
-        let selectedCurrency = "TRY"; 
+        let selectedCurrency = "TRY";
+        function formatWithDots(val) {
+            const digits = (val || '').replace(/\D/g, '');
+            if (!digits) return '';
+            return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+        function getRawDigits(val) {
+            return (val || '').replace(/\D/g, '');
+        }
+        offerInput.addEventListener('input', function() {
+            const start = this.selectionStart;
+            const oldVal = this.value;
+            const digitsBeforeCursor = (oldVal.slice(0, start).match(/\d/g) || []).length;
+            const formatted = formatWithDots(oldVal);
+            if (formatted === oldVal) return;
+            this.value = formatted;
+            let pos = formatted.length;
+            let count = 0;
+            for (let i = 0; i < formatted.length; i++) {
+                if (formatted[i] >= '0' && formatted[i] <= '9') {
+                    count++;
+                    if (count === digitsBeforeCursor) pos = i + 1;
+                }
+            }
+            this.setSelectionRange(pos, pos);
+        });
         currencyToggle.addEventListener('click', function(e) {
             e.stopPropagation(); 
             currencyMenu.classList.toggle('show');
@@ -332,15 +357,15 @@
             });
         });
         function openMail(domainName) {
-            const amount = offerInput.value.trim();
-            if (!amount) {
+            const amountDisplay = offerInput.value.trim();
+            if (!getRawDigits(amountDisplay)) {
                 offerInput.focus();
                 inputGroupWrapper.classList.add('error');
                 setTimeout(() => inputGroupWrapper.classList.remove('error'), 400);
                 return; 
             }
             if (!domainName) domainName = "Premium Domain";
-            const amountText = `${amount} ${selectedCurrency}`;
+            const amountText = `${amountDisplay} ${selectedCurrency}`;
             const subject = encodeURIComponent(`${domainName} Hakkında Teklif / Offer for ${domainName}`);
             const body = encodeURIComponent(`Merhaba,\n\n${domainName} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${domainName}: ${amountText}`);
             window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
