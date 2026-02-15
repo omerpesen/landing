@@ -27,7 +27,7 @@
             text-align: center; width: 100%; max-width: 480px; position: relative; flex-shrink: 0; margin: auto 0; 
         }
         .status-badge { display: inline-block; background: rgba(16, 185, 129, 0.1); color: #34d399; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 15px; border: 1px solid rgba(16, 185, 129, 0.2); text-transform: uppercase; letter-spacing: 1px; }
-        h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin: 0 0 10px 0; color: #fff; line-height: 1.1; }
+        h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin: 0 0 10px 0; color: #fff; line-height: 1.1; display: flex; align-items: center; justify-content: center; gap: 10px; }
         @media (min-width: 600px) { h1 { font-size: 32px; } }
         .domain-highlight { background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 10px rgba(255,255,255,0.1); }
         p { font-size: 15px; margin: 5px 0 25px 0; color: #94a3b8; font-weight: 400; line-height: 1.6; }
@@ -55,6 +55,9 @@
         .btn-slider-wrapper { animation: scrollUpBtn 8s infinite; }
         .btn-slider-text { height: 14px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #ecfdf5; white-space: nowrap; }
         @keyframes scrollUpBtn { 0%, 20% { transform: translateY(0); } 25%, 45% { transform: translateY(-14px); } 50%, 70% { transform: translateY(-28px); } 75%, 95% { transform: translateY(-42px); } 100% { transform: translateY(-56px); } }
+        
+        .domain-icon { display: none; }
+        .has-icon .domain-icon { display: block; }
     </style>
 </head>
 <body>
@@ -63,7 +66,21 @@
         <div class="app-wrapper">
             <div class="container">
                 <div class="status-badge">Satılık / For Sale</div>
-                <h1 id="main-title">Domain.com</h1>
+                <h1 id="main-title">
+                    <span class="domain-icon">
+                        <svg style="width: 40px; height: auto;" viewBox="0 0 35 27.0454545" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="#ffffff" fill-rule="nonzero">
+                                <path d="M17.5077541,16.6822728 C15.4915044,16.6822728 13.4752547,16.637168 11.4625237,16.6961512 C9.97760681,16.741256 9.10495423,15.2909636 9.77351871,14.0037424 C10.8009967,12.0260709 11.8601436,10.0588083 12.912253,8.09154564 C13.250054,7.46007862 13.7954619,7.16169311 14.4992139,7.16169311 C16.5013886,7.15822351 18.5035633,7.15822351 20.5022192,7.16169311 C21.2235651,7.16169311 21.7654542,7.47742662 22.1138115,8.12624163 C23.148327,10.0726867 24.1722863,12.0191317 25.2138394,13.9621072 C25.8859226,15.2146324 25.0977203,16.758604 23.5072406,16.7030904 C21.5085847,16.6267592 19.50641,16.6822728 17.5077541,16.6822728 Z"></path>
+                                <path d="M27.0171753,27.0281701 C25.0142136,27.0281701 23.0112519,26.980346 21.0118103,27.0441115 C19.4347859,27.0951239 18.6744349,25.6827176 19.3221413,24.5476914 C20.3535434,22.7431271 21.3919858,20.9449394 22.4409886,19.14994 C22.7754022,18.5760503 23.3034238,18.2922938 24.0250532,18.2954545 C26.0385754,18.3082351 28.0556177,18.3050469 30.07266,18.2954545 C30.7802089,18.2922938 31.3011901,18.5664855 31.6250433,19.1276221 C32.6846066,20.9449394 33.7547302,22.7622568 34.7755719,24.6018921 C35.2965531,25.5392452 34.8706158,26.5754349 33.9096166,26.9325219 C33.6315252,27.0345467 33.3463936,27.0281701 33.0577418,27.0281701 C31.0512599,27.0313584 29.0342176,27.0281701 27.0171753,27.0281701 Z"></path>
+                                <path d="M7.96385999,27.0283176 C5.94975756,27.0283176 3.92861282,26.980493 1.91451039,27.0442591 C0.354637356,27.0920836 -0.423538582,25.6956075 0.23491798,24.5446307 C1.2666173,22.7432403 2.30535894,20.9418499 3.35818521,19.1468362 C3.69269522,18.5729419 4.22086894,18.2891831 4.94270635,18.2955597 C6.94272414,18.3083129 8.94626309,18.3083129 10.9462809,18.2955597 C11.6892452,18.2891831 12.2244613,18.5793185 12.5660136,19.1627777 C13.6082764,20.9482265 14.6505392,22.7304871 15.6646327,24.5255009 C16.2104122,25.4947445 15.8054791,26.5692021 14.8160336,26.9326685 C14.5378621,27.0346942 14.2526483,27.0251293 13.9674345,27.0251293 C11.9674167,27.0315059 9.96739894,27.0283176 7.96385999,27.0283176 Z"></path>
+                                <path d="M7.1389644,10.3409091 C6.98527105,9.61384204 6.82425898,8.89037433 6.68154373,8.15970794 C6.62299388,7.86096257 6.50589419,7.71338955 6.18021067,7.65939942 C5.44467824,7.5370218 4.7201239,7.35705471 3.97727273,7.1410942 C4.7091458,6.9863225 5.43004078,6.81355409 6.16191385,6.68397779 C6.49125673,6.62638832 6.62665325,6.4788153 6.68520309,6.15487454 C6.81694025,5.42420814 6.98527105,4.69714109 7.19751425,3.97727273 C7.35852632,4.7151378 7.53051649,5.45300288 7.66591301,6.1944673 C7.72080349,6.49321267 7.84522191,6.61918963 8.13431178,6.67317976 C8.87716295,6.81355409 9.60903602,6.97912382 10.3409091,7.20228301 C9.59805792,7.36065405 8.85886612,7.52982312 8.10869622,7.67019745 C7.82692509,7.72418758 7.71714413,7.85016454 7.66957238,8.12371452 C7.53417586,8.8615796 7.36584505,9.58864665 7.20849234,10.319313 C7.19019551,10.3301111 7.16457996,10.3373097 7.1389644,10.3409091 Z"></path>
+                                <path d="M25.4545455,10.2904612 C26.0563362,10.1463245 26.6581269,9.97696386 27.2663885,9.86165448 C27.6093445,9.79679296 27.7840579,9.6454494 27.8325894,9.23465973 C27.9070044,8.62928549 28.0428926,8.03111809 28.1528974,7.43295068 C28.1690745,7.32845156 28.1820163,7.22395243 28.2758439,7.15909091 C28.4182029,7.92301555 28.5702683,8.67973335 28.6996857,9.44365798 C28.7385109,9.67427674 28.8226322,9.76436219 29.0232291,9.80760321 C29.6929639,9.95534335 30.3562279,10.1319108 31.0227273,10.3697364 C30.3659342,10.5318903 29.7123765,10.7012509 29.052348,10.8453876 C28.8355739,10.8922321 28.7385109,10.9823175 28.6964503,11.2345568 C28.5735038,11.9840677 28.4214384,12.7263719 28.2726084,13.5227273 C28.0849533,13.1551786 28.0881887,12.7660095 28.0040674,12.4092711 C27.9102398,12.0056883 27.8325894,11.5948986 27.7743516,11.1805055 C27.7452327,10.9570936 27.6449342,10.8922321 27.4702208,10.8525945 C26.7972505,10.7012509 26.1275157,10.5318903 25.4577809,10.3733399 C25.4577809,10.3445125 25.4545455,10.3192886 25.4545455,10.2904612 Z"></path>
+                                <path d="M17.5109529,3.14235933 C18.2338445,2.98452393 18.9530851,2.80516552 19.6796276,2.6832018 C20.0118656,2.62580711 20.1140927,2.47514605 20.1688572,2.17382392 C20.303943,1.44562878 20.4718876,0.724607974 20.6909456,0 C20.8479372,0.742543815 21.0122307,1.48508763 21.1582694,2.22763144 C21.205732,2.49308189 21.3079591,2.62939428 21.6000365,2.67602747 C22.333881,2.80157835 23.0604235,2.98093676 23.8636364,3.14953367 C23.454728,3.35041509 23.0567725,3.35758942 22.6880248,3.45444296 C22.3156261,3.55129651 21.9359255,3.64097571 21.5525739,3.69119606 C21.2933552,3.72348058 21.213034,3.86338014 21.1692223,4.08578456 C21.0158817,4.84626422 20.8552391,5.60315671 20.6325301,6.36363636 C20.4718876,5.61750538 20.303943,4.8713744 20.1615553,4.12165625 C20.1104418,3.8454443 19.9863089,3.72706775 19.7161373,3.67684739 C18.9749909,3.53336066 18.2374954,3.36835093 17.5,3.21051553 C17.5073019,3.18899252 17.5073019,3.16388234 17.5109529,3.14235933 Z" fill="#ffffff"></path>
+                            </g>
+                        </svg>
+                    </span>
+                    <span id="domain-name-text">Domain.com</span>
+                </h1>
                 <p id="sub-text">Bu alan adı için teklif vermeye başlayabilirsiniz.</p>
                 <div class="input-group" id="inputGroupWrapper">
                     <input type="text" inputmode="numeric" id="offerInput" class="offer-input" placeholder="Teklifiniz / Offer" autofocus autocomplete="off">
@@ -95,27 +112,28 @@
     <script>
         const myEmail = "pesen.omer@gmail.com"; 
         const allowedDomains = ["alvesa.com", "eczam.com", "engerekli.com", "fgh.app", "finegoldbar.com", "finegoldgram.com", "gramlar.com", "kolay.app", "kulceal.com", "nakit.app", "nenekadar.com", "tamirattadilat.com", "yedeksepeti.com", "yolla.app"];
+        const iconDomains = ["kulceal.com", "finegoldbar.com", "finegoldgram.com", "gramlar.com"];
         const urlParams = new URLSearchParams(window.location.search);
         const requestedDomain = urlParams.get('d') || window.location.hostname.replace('www.', '');
         
         if (allowedDomains.includes(requestedDomain)) {
             document.body.style.backgroundColor = "#0f172a";
             document.getElementById('main-content').style.display = "block";
-            
-            const titleElement = document.getElementById('main-title');
+            if (iconDomains.includes(requestedDomain)) {
+                document.querySelector('.container').classList.add('has-icon');
+            }
+            const titleTextElement = document.getElementById('domain-name-text');
             const offerInput = document.getElementById('offerInput');
             const inputGroupWrapper = document.getElementById('inputGroupWrapper');
             const currencyToggle = document.getElementById('currencyToggle');
             const currencyMenu = document.getElementById('currencyMenu');
             const currentCurrencyText = document.getElementById('currentCurrencyText');
             let selectedCurrency = "TRY";
-
             function formatWithDots(val) {
                 const digits = (val || '').replace(/\D/g, '');
                 if (!digits) return '';
                 return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
-
             offerInput.addEventListener('input', function() {
                 const start = this.selectionStart;
                 const oldVal = this.value;
@@ -133,7 +151,6 @@
                 if (digitsBeforeCursor === 0) pos = 0;
                 this.setSelectionRange(pos, pos);
             });
-
             currencyToggle.addEventListener('click', (e) => { e.stopPropagation(); currencyMenu.classList.toggle('show'); });
             document.addEventListener('click', () => currencyMenu.classList.remove('show'));
             document.querySelectorAll('.currency-dropdown li').forEach(item => {
@@ -147,7 +164,6 @@
                     offerInput.focus();
                 });
             });
-
             function openMail() {
                 const amountDisplay = offerInput.value.trim();
                 if (!amountDisplay.replace(/\D/g, '')) {
@@ -161,10 +177,9 @@
                 const body = encodeURIComponent(`Merhaba,\n\n${requestedDomain} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${requestedDomain}: ${amountText}`);
                 window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
             }
-
             offerInput.addEventListener("keypress", (e) => { if (e.key === "Enter") openMail(); });
             document.getElementById('email').onclick = openMail;
-            titleElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span>`;
+            titleTextElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span>`;
             document.title = `${requestedDomain} - Satılık / For Sale`;
         } else {
             document.body.style.backgroundColor = "white";
