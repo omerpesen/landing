@@ -110,9 +110,6 @@
         </div>
     </div>
     <script>
-        const user = "pesen.omer";
-        const domain = "gmail.com";
-        const myEmail = user + "@" + domain; 
         const allowedDomains = ["alvesa.com", "eczam.com", "engerekli.com", "fgh.app", "finegoldbar.com", "finegoldgram.com", "gramlar.com", "kolay.app", "kulceal.com", "nakit.app", "nenekadar.com", "tamirattadilat.com", "yedeksepeti.com", "yolla.app"];
         const iconDomains = ["kulceal.com", "finegoldbar.com", "finegoldgram.com", "gramlar.com"];
         const urlParams = new URLSearchParams(window.location.search);
@@ -174,10 +171,15 @@
                     setTimeout(() => inputGroupWrapper.classList.remove('error'), 400);
                     return; 
                 }
+                
+                const u = "pesen.omer";
+                const d = "gmail.com";
+                const addr = u + "@" + d;
+                
                 const amountText = `${amountDisplay} ${selectedCurrency}`;
                 const subject = encodeURIComponent(`${requestedDomain} Hakkında Teklif / Offer for ${requestedDomain}`);
                 const body = encodeURIComponent(`Merhaba,\n\n${requestedDomain} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${requestedDomain}: ${amountText}`);
-                window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
+                window.location.href = `mailto:${addr}?subject=${subject}&body=${body}`;
             }
             offerInput.addEventListener("keypress", (e) => { if (e.key === "Enter") openMail(); });
             document.getElementById('email').onclick = openMail;
