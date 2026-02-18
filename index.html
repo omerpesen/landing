@@ -175,11 +175,16 @@
                 const u = "pesen.omer";
                 const d = "gmail.com";
                 const addr = u + "@" + d;
-                
                 const amountText = `${amountDisplay} ${selectedCurrency}`;
                 const subject = encodeURIComponent(`${requestedDomain} Hakkında Teklif / Offer for ${requestedDomain}`);
                 const body = encodeURIComponent(`Merhaba,\n\n${requestedDomain} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${requestedDomain}: ${amountText}`);
-                window.location.href = `mailto:${addr}?subject=${subject}&body=${body}`;
+                
+                const mailtoUrl = `mailto:${addr}?subject=${subject}&body=${body}`;
+                
+                const tempLink = document.createElement('a');
+                tempLink.href = mailtoUrl;
+                tempLink.target = '_top';
+                tempLink.click();
             }
             offerInput.addEventListener("keypress", (e) => { if (e.key === "Enter") openMail(); });
             document.getElementById('email').onclick = openMail;
