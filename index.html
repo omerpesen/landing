@@ -48,7 +48,7 @@
         .currency-dropdown li:hover { background-color: #334155; color: #fff; }
         .currency-dropdown li.active { color: #34d399; background-color: rgba(16, 185, 129, 0.1); font-weight: 600; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .email-box { background: #10b981; padding: 18px 20px; border-radius: 14px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; cursor: pointer; transition: all 0.3s ease; border: none; width: 100%; box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4); position: relative; overflow: hidden; z-index: 1; }
+        .email-box { background: #10b981; padding: 18px 20px; border-radius: 14px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; cursor: pointer; transition: all 0.3s ease; border: none; width: 100%; box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4); position: relative; overflow: hidden; z-index: 1; -webkit-tap-highlight-color: transparent; }
         .email-box:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.5); background: #12cf91; }
         .btn-main-text { font-size: 18px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         .btn-slider-window { height: 14px; overflow: hidden; margin-top: 6px; position: relative; width: 100%; opacity: 0.9; }
@@ -109,6 +109,9 @@
             </div>
         </div>
     </div>
+
+    <a id="hiddenMailLink" style="display:none;" target="_top"></a>
+
     <script>
         const allowedDomains = ["alvesa.com", "eczam.com", "engerekli.com", "fgh.app", "finegoldbar.com", "finegoldgram.com", "gramlar.com", "kolay.app", "kulceal.com", "nakit.app", "nenekadar.com", "tamirattadilat.com", "yedeksepeti.com", "yolla.app"];
         const iconDomains = ["kulceal.com", "finegoldbar.com", "finegoldgram.com", "gramlar.com"];
@@ -128,11 +131,13 @@
             const currencyMenu = document.getElementById('currencyMenu');
             const currentCurrencyText = document.getElementById('currentCurrencyText');
             let selectedCurrency = "TRY";
+
             function formatWithDots(val) {
                 const digits = (val || '').replace(/\D/g, '');
                 if (!digits) return '';
                 return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
+
             offerInput.addEventListener('input', function() {
                 const start = this.selectionStart;
                 const oldVal = this.value;
@@ -150,6 +155,7 @@
                 if (digitsBeforeCursor === 0) pos = 0;
                 this.setSelectionRange(pos, pos);
             });
+
             currencyToggle.addEventListener('click', (e) => { e.stopPropagation(); currencyMenu.classList.toggle('show'); });
             document.addEventListener('click', () => currencyMenu.classList.remove('show'));
             document.querySelectorAll('.currency-dropdown li').forEach(item => {
@@ -163,6 +169,7 @@
                     offerInput.focus();
                 });
             });
+
             function openMail() {
                 const amountDisplay = offerInput.value.trim();
                 if (!amountDisplay.replace(/\D/g, '')) {
@@ -181,13 +188,14 @@
                 
                 const mailtoUrl = `mailto:${addr}?subject=${subject}&body=${body}`;
                 
-                const tempLink = document.createElement('a');
-                tempLink.href = mailtoUrl;
-                tempLink.target = '_top';
-                tempLink.click();
+                const link = document.getElementById('hiddenMailLink');
+                link.href = mailtoUrl;
+                link.click();
             }
+
             offerInput.addEventListener("keypress", (e) => { if (e.key === "Enter") openMail(); });
-            document.getElementById('email').onclick = openMail;
+            document.getElementById('email').addEventListener('click', openMail);
+            
             titleTextElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span>`;
             document.title = `${requestedDomain} - Satılık / For Sale`;
         } else {
