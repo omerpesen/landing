@@ -110,6 +110,8 @@
         </div>
     </div>
 
+    <a id="hiddenMailLink" style="display:none;" target="_top"></a>
+
     <script>
         const allowedDomains = ["alvesa.com", "eczam.com", "engerekli.com", "fgh.app", "finegoldbar.com", "finegoldgram.com", "gramlar.com", "kolay.app", "kulceal.com", "nakit.app", "nenekadar.com", "tamirattadilat.com", "yedeksepeti.com", "yolla.app"];
         const iconDomains = ["kulceal.com", "finegoldbar.com", "finegoldgram.com", "gramlar.com"];
@@ -177,14 +179,18 @@
                     return; 
                 }
                 
-                const _0x=[0x63,0x47,0x56,0x7a,0x5a,0x57,0x34,0x75,0x62,0x32,0x31,0x6c,0x63,0x6b,0x42,0x6e,0x62,0x57,0x46,0x70,0x62,0x43,0x35,0x6a,0x62,0x32,0x30,0x3d];
-                const addr=atob(String.fromCharCode.apply(0,_0x));
+                const u = "pesen.omer";
+                const d = "gmail.com";
+                const addr = u + "@" + d;
                 const amountText = `${amountDisplay} ${selectedCurrency}`;
                 const subject = encodeURIComponent(`${requestedDomain} Hakkında Teklif / Offer for ${requestedDomain}`);
                 const body = encodeURIComponent(`Merhaba,\n\n${requestedDomain} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${requestedDomain}: ${amountText}`);
                 
                 const mailtoUrl = `mailto:${addr}?subject=${subject}&body=${body}`;
-                window.location.href = mailtoUrl;
+                
+                const link = document.getElementById('hiddenMailLink');
+                link.href = mailtoUrl;
+                link.click();
             }
 
             offerInput.addEventListener("keypress", (e) => { if (e.key === "Enter") openMail(); });
