@@ -59,6 +59,13 @@
         .domain-icon { display: none; }
         .has-icon .domain-icon { display: block; }
 
+        .fallback { display: none; margin-top: 18px; padding: 16px; border-radius: 14px; background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; text-align: center; }
+        .fallback p { margin: 0 0 10px 0; font-size: 13px; line-height: 1.5; }
+        .fb-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .fb-row input { flex: 1; min-width: 0; background: #0f172a; border: 1px solid #334155; border-radius: 10px; color: #fff; padding: 10px 12px; font-size: 16px; font-family: inherit; }
+        .fb-row button { background: #334155; color: #fff; border: none; border-radius: 10px; padding: 0 16px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; }
+        .fb-link { color: #34d399; font-size: 13px; font-weight: 600; text-decoration: none; }
+
         /* Mobil: çift tıklayınca zoom'u engelle */
         html, body, .app-wrapper, .container, button, .email-box, .currency-selector, .currency-dropdown li, .input-group {
             touch-action: manipulation;
@@ -111,6 +118,14 @@
                         </div>
                     </div>
                 </button>
+                <div class="fallback" id="fallbackBox">
+                    <p>Mail uygulaması açılmadıysa teklifini bu adrese gönderebilirsiniz.<br>If your mail app did not open, send your offer to this address.</p>
+                    <div class="fb-row">
+                        <input type="text" id="fbAddr" readonly>
+                        <button type="button" id="fbCopy">Kopyala</button>
+                    </div>
+                    <a class="fb-link" id="fbGmail" target="_blank" rel="noopener">Gmail'de aç / Open in Gmail</a>
+                </div>
             </div>
         </div>
     </div>
@@ -178,6 +193,22 @@
                 });
             });
 
+            const fallbackBox = document.getElementById('fallbackBox');
+            const fbAddr = document.getElementById('fbAddr');
+            const fbGmail = document.getElementById('fbGmail');
+            const fbCopy = document.getElementById('fbCopy');
+
+            fbCopy.addEventListener('click', function () {
+                fbAddr.focus();
+                fbAddr.select();
+                fbAddr.setSelectionRange(0, 999);
+                let ok = false;
+                try { ok = document.execCommand('copy'); } catch (err) {}
+                if (!ok && navigator.clipboard) { navigator.clipboard.writeText(fbAddr.value).catch(function () {}); }
+                fbCopy.textContent = 'Kopyalandı ✓';
+                setTimeout(() => { fbCopy.textContent = 'Kopyala'; }, 2000);
+            });
+
             function openMail(e) {
                 // Script ile tetiklenen sahte tıklamaları engelle (bot koruması)
                 if (e && e.isTrusted === false) return;
@@ -193,14 +224,40 @@
                 // Adres HTML'de düz yazılı değil, sadece tıklama anında çözülür
                 const addr = atob("cGVzZW4ub21lckBnbWFpbC5jb20=");
                 const amountText = `${amountDisplay} ${selectedCurrency}`;
-                const subject = encodeURIComponent(`${requestedDomain} Hakkında Teklif / Offer for ${requestedDomain}`);
-                const body = encodeURIComponent(`Merhaba,\n\n${requestedDomain} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${requestedDomain}: ${amountText}`);
-                
-                window.location.href = `mailto:${addr}?subject=${subject}&body=${body}`;
+                const subjectRaw = `${requestedDomain} Hakkında Teklif / Offer for ${requestedDomain}`;
+                const bodyRaw = `Merhaba,\n\n${requestedDomain} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${requestedDomain}: ${amountText}`;
+                const subject = encodeURIComponent(subjectRaw);
+                const body = encodeURIComponent(bodyRaw);
+                const mailtoUrl = `mailto:${addr}?subject=${subject}&body=${body}`;
+
+                // Mail uygulaması açılırsa sayfa arka plana gider; açılmazsa yedek kutuyu göster
+                let left = false;
+                const markLeft = () => { left = true; };
+                window.addEventListener('pagehide', markLeft, { once: true });
+                window.addEventListener('blur', markLeft, { once: true });
+                document.addEventListener('visibilitychange', () => { if (document.hidden) left = true; }, { once: true });
+
+                // Maskeli (iframe) kullanımda en üst pencereyi yönlendir, olmazsa kendi penceresini
+                try {
+                    (window.top && window.top !== window ? window.top : window).location.href = mailtoUrl;
+                } catch (err) {
+                    window.location.href = mailtoUrl;
+                }
+
+                setTimeout(function () {
+                    if (left || document.hidden) return;
+                    fbAddr.value = addr;
+                    fbGmail.href = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(addr)}&su=${subject}&body=${body}`;
+                    fallbackBox.style.display = 'block';
+                    fallbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 1500);
             }
 
             offerInput.addEventListener("keypress", (e) => { if (e.key === "Enter") openMail(e); });
-            document.getElementById('email').addEventListener('click', openMail);
+            const sendBtn = document.getElementById('email');
+            // Butona basınca input'tan odak kaybolup klavye kapanmasın (layout kaymasını önler)
+            sendBtn.addEventListener('mousedown', (e) => e.preventDefault());
+            sendBtn.addEventListener('click', openMail);
             
             titleTextElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span>`;
             document.title = `${requestedDomain} - Satılık / For Sale`;
