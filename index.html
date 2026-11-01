@@ -48,7 +48,7 @@
         .currency-dropdown li:hover { background-color: #334155; color: #fff; }
         .currency-dropdown li.active { color: #34d399; background-color: rgba(16, 185, 129, 0.1); font-weight: 600; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .email-box { background: #10b981; padding: 18px 20px; border-radius: 14px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; cursor: pointer; transition: all 0.3s ease; border: none; width: 100%; box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4); position: relative; overflow: hidden; z-index: 1; -webkit-tap-highlight-color: transparent; }
+        .email-box { background: #10b981; padding: 18px 20px; border-radius: 14px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; cursor: pointer; transition: all 0.3s ease; border: none; width: 100%; box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4); position: relative; overflow: hidden; z-index: 1; -webkit-tap-highlight-color: transparent; font-family: inherit; }
         .email-box:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.5); background: #12cf91; }
         .btn-main-text { font-size: 18px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         .btn-slider-window { height: 14px; overflow: hidden; margin-top: 6px; position: relative; width: 100%; opacity: 0.9; }
@@ -58,6 +58,11 @@
         
         .domain-icon { display: none; }
         .has-icon .domain-icon { display: block; }
+
+        /* Mobil: çift tıklayınca zoom'u engelle */
+        html, body, .app-wrapper, .container, button, .email-box, .currency-selector, .currency-dropdown li, .input-group {
+            touch-action: manipulation;
+        }
     </style>
 </head>
 <body>
@@ -94,7 +99,7 @@
                         </ul>
                     </div>
                 </div>
-                <button class="email-box" id="email">
+                <button type="button" class="email-box" id="email">
                     <span class="btn-main-text">Teklifi Gönder</span>
                     <div class="btn-slider-window">
                         <div class="btn-slider-wrapper">
@@ -110,9 +115,12 @@
         </div>
     </div>
 
-    <a id="hiddenMailLink" style="display:none;" target="_top"></a>
-
     <script>
+        // iOS Safari: pinch/çift dokunma zoom'unu engelle
+        ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (evt) {
+            document.addEventListener(evt, function (e) { e.preventDefault(); });
+        });
+
         const allowedDomains = ["alvesa.com", "eczam.com", "engerekli.com", "fgh.app", "kiymetlimadenler.com", "gramlar.com", "kolay.app", "kulceal.com", "nakit.app", "nenekadar.com", "tamirattadilat.com", "yedeksepeti.com", "yolla.app"];
         const iconDomains = ["kulceal.com", "kiymetlimadenler.com", "gramlar.com"];
         const urlParams = new URLSearchParams(window.location.search);
@@ -170,7 +178,10 @@
                 });
             });
 
-            function openMail() {
+            function openMail(e) {
+                // Script ile tetiklenen sahte tıklamaları engelle (bot koruması)
+                if (e && e.isTrusted === false) return;
+
                 const amountDisplay = offerInput.value.trim();
                 if (!amountDisplay.replace(/\D/g, '')) {
                     offerInput.focus();
@@ -179,21 +190,16 @@
                     return; 
                 }
                 
-                const u = "pesen.omer";
-                const d = "gmail.com";
-                const addr = u + "@" + d;
+                // Adres HTML'de düz yazılı değil, sadece tıklama anında çözülür
+                const addr = atob("cGVzZW4ub21lckBnbWFpbC5jb20=");
                 const amountText = `${amountDisplay} ${selectedCurrency}`;
                 const subject = encodeURIComponent(`${requestedDomain} Hakkında Teklif / Offer for ${requestedDomain}`);
                 const body = encodeURIComponent(`Merhaba,\n\n${requestedDomain} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${requestedDomain}: ${amountText}`);
                 
-                const mailtoUrl = `mailto:${addr}?subject=${subject}&body=${body}`;
-                
-                const link = document.getElementById('hiddenMailLink');
-                link.href = mailtoUrl;
-                link.click();
+                window.location.href = `mailto:${addr}?subject=${subject}&body=${body}`;
             }
 
-            offerInput.addEventListener("keypress", (e) => { if (e.key === "Enter") openMail(); });
+            offerInput.addEventListener("keypress", (e) => { if (e.key === "Enter") openMail(e); });
             document.getElementById('email').addEventListener('click', openMail);
             
             titleTextElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span>`;
