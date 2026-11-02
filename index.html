@@ -158,7 +158,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const requestedDomain = urlParams.get('d') || window.location.hostname.replace('www.', '');
         
-        if (allowedDomains.includes(requestedDomain)) {
+        function init() {
             document.body.style.backgroundColor = "#0f172a";
             document.getElementById('main-content').style.display = "block";
             if (iconDomains.includes(requestedDomain)) {
@@ -170,7 +170,7 @@
             const currencyToggle = document.getElementById('currencyToggle');
             const currencyMenu = document.getElementById('currencyMenu');
             const currentCurrencyText = document.getElementById('currentCurrencyText');
-            let selectedCurrency = "TRY";
+            var selectedCurrency = "TRY";
 
             function formatWithDots(val) {
                 const digits = (val || '').replace(/\D/g, '');
@@ -292,6 +292,10 @@
 
             titleTextElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span>`;
             document.title = `${requestedDomain} - Satılık / For Sale`;
+        }
+
+        if (allowedDomains.includes(requestedDomain)) {
+            init();
         } else {
             document.body.style.backgroundColor = "white";
         }
