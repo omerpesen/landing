@@ -106,7 +106,7 @@
                         </ul>
                     </div>
                 </div>
-                <button type="button" class="email-box" id="email">
+                <a href="#" class="email-box" id="email" role="button" target="_top">
                     <span class="btn-main-text">Teklifi Gönder</span>
                     <div class="btn-slider-window">
                         <div class="btn-slider-wrapper">
@@ -117,7 +117,7 @@
                             <div class="btn-slider-text">🚀 Son 1 Yılda 3 Farklı Başarılı Satış</div>
                         </div>
                     </div>
-                </button>
+                </a>
                 <div class="fallback" id="fallbackBox">
                     <p>Mail uygulaması açıldıysa gönder'e basmanız yeterli. Açılmadıysa teklifinizi bu adrese iletebilirsiniz.<br>If your mail app did not open, you can send your offer to this address.</p>
                     <div class="fb-row">
@@ -131,6 +131,23 @@
     </div>
 
     <script>
+        // ?debug=1 ile açılırsa ekranın altında olay/hata günlüğü gösterir
+        (function () {
+            if (new URLSearchParams(location.search).get('debug') !== '1') return;
+            var box = document.createElement('div');
+            box.style.cssText = 'position:fixed;left:0;right:0;bottom:0;max-height:35%;overflow:auto;background:#000;color:#0f0;font:11px monospace;padding:6px;z-index:99999;white-space:pre-wrap;';
+            document.addEventListener('DOMContentLoaded', function () { document.body.appendChild(box); });
+            window.__dbg = function (m) { box.textContent += m + '\n'; };
+            window.addEventListener('error', function (e) { window.__dbg('HATA: ' + e.message + ' @' + e.lineno); });
+            ['touchstart', 'touchend', 'pointerdown', 'click'].forEach(function (t) {
+                document.addEventListener(t, function (e) {
+                    var el = e.target;
+                    window.__dbg(t + ' -> ' + el.tagName + (el.id ? '#' + el.id : '') + ' ' + (el.className && el.className.baseVal === undefined ? el.className : ''));
+                }, true);
+            });
+            window.__dbg('debug acik, js calisiyor');
+        })();
+
         // iOS Safari: pinch/çift dokunma zoom'unu engelle
         ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (evt) {
             document.addEventListener(evt, function (e) { e.preventDefault(); });
@@ -209,48 +226,70 @@
                 setTimeout(() => { fbCopy.textContent = 'Kopyala'; }, 2000);
             });
 
-            function openMail(e) {
-                // Script ile tetiklenen sahte tıklamaları engelle (bot koruması)
-                if (e && e.isTrusted === false) return;
+            const sendBtn = document.getElementById('email');
 
+            function buildMail() {
                 const amountDisplay = offerInput.value.trim();
-                if (!amountDisplay.replace(/\D/g, '')) {
-                    offerInput.focus();
-                    inputGroupWrapper.classList.add('error');
-                    setTimeout(() => inputGroupWrapper.classList.remove('error'), 400);
-                    return; 
-                }
-                
-                // Adres HTML'de düz yazılı değil, sadece tıklama anında çözülür
+                if (!amountDisplay.replace(/\D/g, '')) return null;
+                // Adres HTML'de düz yazılı değil, sadece kullanıcı etkileşiminde çözülür
                 const addr = atob("cGVzZW4ub21lckBnbWFpbC5jb20=");
                 const amountText = `${amountDisplay} ${selectedCurrency}`;
-                const subjectRaw = `${requestedDomain} Hakkında Teklif / Offer for ${requestedDomain}`;
-                const bodyRaw = `Merhaba,\n\n${requestedDomain} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${requestedDomain}: ${amountText}`;
-                const subject = encodeURIComponent(subjectRaw);
-                const body = encodeURIComponent(bodyRaw);
-                const mailtoUrl = `mailto:${addr}?subject=${subject}&body=${body}`;
+                const subject = encodeURIComponent(`${requestedDomain} Hakkında Teklif / Offer for ${requestedDomain}`);
+                const body = encodeURIComponent(`Merhaba,\n\n${requestedDomain} alan adı için teklifim şudur: ${amountText}\n\nHello,\n\nHere is my offer for ${requestedDomain}: ${amountText}`);
+                return {
+                    addr: addr,
+                    mailto: `mailto:${addr}?subject=${subject}&body=${body}`,
+                    gmail: `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(addr)}&su=${subject}&body=${body}`
+                };
+            }
 
-                // Maskeli (iframe) kullanımda en üst pencereyi yönlendir, olmazsa kendi penceresini
-                try {
-                    (window.top && window.top !== window ? window.top : window).location.href = mailtoUrl;
-                } catch (err) {
-                    window.location.href = mailtoUrl;
-                }
+            function shake() {
+                offerInput.focus();
+                inputGroupWrapper.classList.add('error');
+                setTimeout(() => inputGroupWrapper.classList.remove('error'), 400);
+            }
 
-                fbAddr.value = addr;
-                fbGmail.href = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(addr)}&su=${subject}&body=${body}`;
+            function showFallback(m) {
+                fbAddr.value = m.addr;
+                fbGmail.href = m.gmail;
                 fallbackBox.style.display = 'block';
                 setTimeout(function () {
                     fallbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 300);
             }
 
-            offerInput.addEventListener("keypress", (e) => { if (e.key === "Enter") openMail(e); });
-            const sendBtn = document.getElementById('email');
+            // Buton gerçek bir bağlantı: href, kullanıcı yazdıkça güncellenir
+            function refreshLink(e) {
+                if (e && e.isTrusted === false) return;
+                const m = buildMail();
+                if (m) { sendBtn.href = m.mailto; sendBtn.setAttribute('target', '_top'); }
+                else { sendBtn.href = '#'; sendBtn.removeAttribute('target'); }
+            }
+            ['input', 'change', 'keyup'].forEach(t => offerInput.addEventListener(t, refreshLink));
+            document.querySelectorAll('.currency-dropdown li').forEach(li => li.addEventListener('click', () => refreshLink()));
+
+            sendBtn.addEventListener('click', function (e) {
+                if (e.isTrusted === false) { e.preventDefault(); return; }
+                const m = buildMail();
+                if (!m) { e.preventDefault(); shake(); return; }
+                // href'i son kez güncelle; tarayıcı bağlantıyı kendisi açar
+                sendBtn.href = m.mailto;
+                sendBtn.setAttribute('target', '_top');
+                showFallback(m);
+                if (window.__dbg) window.__dbg('mailto: ' + m.mailto.slice(0, 60));
+            });
+
+            // Enter tuşu (masaüstü / harici klavye)
+            offerInput.addEventListener("keypress", function (e) {
+                if (e.key !== "Enter") return;
+                const m = buildMail();
+                if (!m) { shake(); return; }
+                showFallback(m);
+                window.location.href = m.mailto;
+            });
             // Butona basınca input'tan odak kaybolup klavye kapanmasın (layout kaymasını önler)
             sendBtn.addEventListener('mousedown', (e) => e.preventDefault());
-            sendBtn.addEventListener('click', openMail);
-            
+
             titleTextElement.innerHTML = `<span class="domain-highlight">${requestedDomain}</span>`;
             document.title = `${requestedDomain} - Satılık / For Sale`;
         } else {
