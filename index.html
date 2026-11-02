@@ -59,13 +59,6 @@
         .domain-icon { display: none; }
         .has-icon .domain-icon { display: block; }
 
-        .fallback { display: none; margin-top: 18px; padding: 16px; border-radius: 14px; background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; text-align: center; }
-        .fallback p { margin: 0 0 10px 0; font-size: 13px; line-height: 1.5; }
-        .fb-row { display: flex; gap: 8px; margin-bottom: 10px; }
-        .fb-row input { flex: 1; min-width: 0; background: #0f172a; border: 1px solid #334155; border-radius: 10px; color: #fff; padding: 10px 12px; font-size: 16px; font-family: inherit; }
-        .fb-row button { background: #334155; color: #fff; border: none; border-radius: 10px; padding: 0 16px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; }
-        .fb-link { display: block; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px; border-radius: 10px; }
-
         /* Mobil: çift tıklayınca zoom'u engelle */
         html, body, .app-wrapper, .container, button, .email-box, .currency-selector, .currency-dropdown li, .input-group {
             touch-action: manipulation;
@@ -118,14 +111,6 @@
                         </div>
                     </div>
                 </a>
-                <div class="fallback" id="fallbackBox">
-                    <p>Mail uygulaması açıldıysa gönder'e basmanız yeterli. Açılmadıysa teklifinizi bu adrese iletebilirsiniz.<br>If your mail app did not open, you can send your offer to this address.</p>
-                    <div class="fb-row">
-                        <input type="text" id="fbAddr" readonly>
-                        <button type="button" id="fbCopy">Kopyala</button>
-                    </div>
-                    <a class="fb-link" id="fbGmail" target="_blank" rel="noopener">Gmail'de aç / Open in Gmail</a>
-                </div>
             </div>
         </div>
     </div>
@@ -210,22 +195,6 @@
                 });
             });
 
-            const fallbackBox = document.getElementById('fallbackBox');
-            const fbAddr = document.getElementById('fbAddr');
-            const fbGmail = document.getElementById('fbGmail');
-            const fbCopy = document.getElementById('fbCopy');
-
-            fbCopy.addEventListener('click', function () {
-                fbAddr.focus();
-                fbAddr.select();
-                fbAddr.setSelectionRange(0, 999);
-                let ok = false;
-                try { ok = document.execCommand('copy'); } catch (err) {}
-                if (!ok && navigator.clipboard) { navigator.clipboard.writeText(fbAddr.value).catch(function () {}); }
-                fbCopy.textContent = 'Kopyalandı ✓';
-                setTimeout(() => { fbCopy.textContent = 'Kopyala'; }, 2000);
-            });
-
             const sendBtn = document.getElementById('email');
 
             function buildMail() {
@@ -249,15 +218,6 @@
                 setTimeout(() => inputGroupWrapper.classList.remove('error'), 400);
             }
 
-            function showFallback(m) {
-                fbAddr.value = m.addr;
-                fbGmail.href = m.gmail;
-                fallbackBox.style.display = 'block';
-                setTimeout(function () {
-                    fallbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 300);
-            }
-
             // Buton gerçek bir bağlantı: href, kullanıcı yazdıkça güncellenir
             function refreshLink(e) {
                 if (e && e.isTrusted === false) return;
@@ -275,7 +235,6 @@
                 // href'i son kez güncelle; tarayıcı bağlantıyı kendisi açar
                 sendBtn.href = m.mailto;
                 sendBtn.setAttribute('target', '_top');
-                showFallback(m);
                 if (window.__dbg) window.__dbg('mailto: ' + m.mailto.slice(0, 60));
             });
 
@@ -284,7 +243,6 @@
                 if (e.key !== "Enter") return;
                 const m = buildMail();
                 if (!m) { shake(); return; }
-                showFallback(m);
                 window.location.href = m.mailto;
             });
             // Butona basınca input'tan odak kaybolup klavye kapanmasın (layout kaymasını önler)
